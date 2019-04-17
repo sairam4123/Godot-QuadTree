@@ -1,7 +1,7 @@
 # Attribution
 This project is based on the work of AggressiveGaming (https://github.com/AggressiveGaming).
 
-I'm working on something in Godot 3.1 which requires quadtrees so I updated to project to run in that version.
+I'm working on something in Godot 3.1 which requires quadtrees, so I updated this project to run with it.
 
 Putting up here in case others find it useful.
 
