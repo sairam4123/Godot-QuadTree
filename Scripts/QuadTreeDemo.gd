@@ -1,37 +1,37 @@
-extends Node
+extends Spatial
 
 var _rootQuadTree = null
-var _mat = FixedMaterial.new()
+var _mat = SpatialMaterial.new()
 var _bodies = []
 
 
 func _ready():
-	set_process(true)
-	set_fixed_process(true)
-	set_process_input(true)
-	
+#	set_process(true)
+#	set_fixed_process(true)
+#	set_process_input(true)
+
 	# create a QuadTree
 	var sampleBounds = Rect2(Vector2(0, 0), Vector2(64, 64))
 	_rootQuadTree = get_node("QuadTree").create_quadtree(sampleBounds, 5, 8)
-	
+
 	# add bodies and draw the quadtree/bodies
 	_add_random_bodies(1000)
 	_draw_root()
 
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	#demonstrate querying the QuadTree.  We call get_bodies_in_radius to
 	#retrieve a list of bodies who belong to quadrants that overlap a circle
 	#at hitPoint with radius of 2
 	if(Input.is_mouse_button_pressed(1)):
-		var hitPoint = _get_hit_point(get_viewport().get_mouse_pos())
+		var hitPoint = _get_hit_point(get_viewport().get_mouse_position())
 		var result = _rootQuadTree.get_bodies_in_radius(hitPoint, 2)
 		#erase them for visual feedback
-		for body in result: 
+		for body in result:
 			_bodies.erase(body)
 		#redraw
 		_draw_root()
-		
+
 	#press R to generate and add a new set of bodies
 	if(Input.is_key_pressed(KEY_R)):
 		_rootQuadTree.clear()
@@ -41,7 +41,7 @@ func _fixed_process(delta):
 
 
 func _process(delta):
-	#It's slow if there's thousands of _bodies, but you 
+	#It's slow if there's thousands of _bodies, but you
 	#can update your QuadTree each frame in this manner:
 	#_rootQuadTree.clear()
 	#for body in _bodies:
@@ -58,7 +58,7 @@ func _add_random_bodies(count):
 		var location = Vector3(randi() % 65, randi() % 65, 0) #generate a random location vector
 		body.set_translation(location)
 		_bodies.append(body) #store locally to draw easily
-		_rootQuadTree.add_body(body) #add to our root QuadTree 
+		_rootQuadTree.add_body(body) #add to our root QuadTree
 		i+=1
 
 
@@ -68,9 +68,9 @@ func _draw_root():
 	drawer.set_material_override(_mat)
 	drawer.clear()
 	drawer.begin(Mesh.PRIMITIVE_LINES, null)
-	
+
 	var points = _rootQuadTree.get_rect_lines()
-	
+
 	for point in points:
 		drawer.add_vertex(point)
 
@@ -104,14 +104,14 @@ func _get_hit_point(mpos):
 	# Get the camera (just an example)
 	var camera = get_node("Camera")
 
-    # Project mouse into a 3D ray
+	# Project mouse into a 3D ray
 	var ray_origin = camera.project_ray_origin(mpos)
 	var ray_direction = camera.project_ray_normal(mpos)
 
 	# Cast a ray
 	var from = ray_origin
 	var to = ray_origin + ray_direction * 1000.0
-	var space_state = get_world().get_direct_space_state()
+	var space_state = self.get_world().get_direct_space_state()
 	var hit = space_state.intersect_ray(from, to)
 	if hit.size() != 0:
 		return hit.position
