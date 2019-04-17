@@ -1,3 +1,10 @@
+# Attribution
+This project is based on the work of AggressiveGaming (https://github.com/AggressiveGaming).
+
+I'm working on something in Godot 3.1 which requires quadtrees so I updated to project to run in that version.
+
+Putting up here in case others find it useful.
+
 # Godot-QuadTree
 2d QuadTree implementation for Godot Engine
 
