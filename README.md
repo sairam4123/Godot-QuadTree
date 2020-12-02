@@ -1,5 +1,5 @@
 # Attribution
-This project is based on the work of gvdb(https://github.com/gvdb)
+This project is based on the work of [gvdb](https://github.com/gvdb)
 
 I'm working on something in Godot 3.2 which requires quadtrees, so I updated this project to run with it.
 
